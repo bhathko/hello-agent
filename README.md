@@ -12,17 +12,22 @@ A modular AI Agent built with the modern **Google Gemini SDK** and the **ReAct (
 ## 📂 Project Structure
 ```text
 /
-├── hello_agent/           # Core logic package
-│   ├── agent.py           # ReAct agent implementation
-│   ├── config.py          # Configuration & Validation
-│   ├── llm_client.py      # Gemini API client
-│   ├── prompts.py         # System instructions
-│   └── tools/             # Tool implementations
-│       ├── weather.py     # Google Weather API tool
-│       └── attraction.py  # Tavily Search tool
-├── main.py                # Entry point
-├── .env                   # Environment variables (private)
-└── requirements.txt       # Dependencies
+├── base_chapter.py                  # Abstract base class for all chapters
+├── chapter_1_transformer_structure/ # Chapter 1: Transformer Architecture
+│   ├── run.py                       # Self-contained entry point for Chapter 1
+│   └── simple_transformer.py        # Skeleton of Transformer implementation
+├── chapter_2_action_thought_observe/# Chapter 2: ReAct Agent Implementation
+│   ├── run.py                       # Self-contained entry point for Chapter 2
+│   ├── agent.py                     # ReAct agent logic (Thought-Action-Observation)
+│   ├── config.py                    # Configuration & Validation
+│   ├── llm_client.py                # Gemini API client
+│   ├── prompts.py                   # System instructions
+│   └── tools/                       # Tool implementations
+│       ├── weather.py               # Google Weather API tool
+│       └── attraction.py            # Tavily Search tool
+├── main.py                          # Global entry point (switching between chapters)
+├── .env                             # Environment variables (private)
+└── requirements.txt                 # Dependencies
 ```
 
 ## 🚀 Setup
@@ -58,7 +63,22 @@ The **Google Maps Platform Weather API** is highly accurate but currently has **
 - **Behavior**: The agent is programmed to recognize these limitations and will inform you if a city is not yet supported.
 
 ## 🛠 Usage
-Run the agent using the entry point script:
+You can run the global entry point:
+
 ```bash
-python main.py
+# Run Chapter 1
+python main.py --chapter 1
+
+# Run Chapter 2
+python main.py --chapter 2
+```
+
+Or run each chapter's entry point directly:
+
+```bash
+# Chapter 1
+python chapter_1_transformer_structure/run.py
+
+# Chapter 2
+python chapter_2_action_thought_observe/run.py
 ```

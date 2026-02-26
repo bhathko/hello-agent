@@ -35,16 +35,19 @@ class Agent:
         self.max_iterations = max_iterations
         self.prompt_history: List[str] = []
 
-    def run(self, user_prompt: str) -> str:
+    def run(self, user_prompt: Optional[str] = None) -> str:
         """
         Run the agent to solve a user's request.
 
         Args:
-            user_prompt: The user's request
+            user_prompt: The user's request. If None, uses a default prompt.
 
         Returns:
             The final answer
         """
+        if user_prompt is None:
+            user_prompt = "Hello, please help me check the weather in Kaohsiung City today, and then recommend a suitable tourist attraction based on the weather."
+            
         self.prompt_history = [f"User Request: {user_prompt}"]
         print(f"User Input: {user_prompt}\n" + "=" * 40)
 
