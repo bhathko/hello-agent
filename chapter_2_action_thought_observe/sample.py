@@ -43,7 +43,6 @@ class Chapter2Sample(BaseChapter):
         )
 
         final_answer = agent.run(user_prompt)
-        print("
-" + "=" * 40)
+        print("\n" + "=" * 40)
         print(f"Final Result: {final_answer}")
         print("--- Chapter 2 Demo Completed ---")
