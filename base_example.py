@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 
-class BaseChapter(ABC):
+class BaseExample(ABC):
     """
-    Abstract base class for all chapter samples.
+    Abstract base class for all example samples.
     """
     
     @abstractmethod
     def run(self):
         """
-        Execute the sample logic for this chapter.
+        Execute the sample logic for this example.
         """
         pass

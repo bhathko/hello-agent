@@ -5,16 +5,16 @@ from typing import Optional
 # Ensure root is in path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from base_chapter import BaseChapter
+from base_example import BaseExample
 from .agent import Agent
 from .config import get_config
 from .llm_client import GeminiClient
 from .tools import get_available_tools
 from dotenv import load_dotenv
 
-class Chapter2Sample(BaseChapter):
+class Example2Sample(BaseExample):
     """
-    Chapter 2 Runner: Implementation of the ReAct Agent.
+    Example 2 Runner: Implementation of the ReAct Agent.
     """
     
     def run(self, user_prompt: Optional[str] = None):
@@ -45,4 +45,4 @@ class Chapter2Sample(BaseChapter):
         final_answer = agent.run(user_prompt)
         print("\n" + "=" * 40)
         print(f"Final Result: {final_answer}")
-        print("--- Chapter 2 Demo Completed ---")
+        print("--- Example 2 Demo Completed ---")

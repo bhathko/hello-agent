@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import math
-from base_chapter import BaseChapter
+from base_example import BaseExample
 
 # ==========================================
 # A Simple Transformer Story: Flow and Duty
@@ -212,9 +212,9 @@ class DecoderLayer(nn.Module):
         return x
 
 
-class TransformerSample(BaseChapter):
+class TransformerSample(BaseExample):
     """
-    Chapter 1: Transformer Structure Sample
+    Example 1: Transformer Structure Sample
     """
     def run(self):
         print("=== Transformer 故事：工廠流水線開始運作 ===\n")

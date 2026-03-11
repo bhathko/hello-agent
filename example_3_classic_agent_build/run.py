@@ -4,11 +4,11 @@ import os
 # Ensure the root directory is in the Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from chapter_1_transformer_structure.simple_transformer import TransformerSample
+from example_3_classic_agent_build.sample import Example3Sample
 
 def main():
-    """Run Chapter 1 sample."""
-    sample = TransformerSample()
+    """Main execution point for Chapter 4 sample."""
+    sample = Example3Sample()
     sample.run()
 
 if __name__ == "__main__":
