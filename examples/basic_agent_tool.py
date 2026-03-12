@@ -13,9 +13,9 @@ class BasicAgentToolExample(BaseExample):
         tool_executor = ToolExecutor()
 
         search_description = "一個網頁搜尋引擎。當你需要回答關於時事、事實以及在你的知識庫中找不到的資訊時，應使用此工具。"
-        tool_executor.registerTool("Search", search_description, search)
+        tool_executor.register_tool("Search", search_description, search)
 
-        agent = ReActAgent(llm_client, tool_executor, max_steps=5)
+        agent = ReActAgent(llm_client, tool_executor, max_iterations=5)
         agent.run("NVIDIA最新的GPU型號是什麼")
 
 

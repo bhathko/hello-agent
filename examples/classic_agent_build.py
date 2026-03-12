@@ -1,7 +1,7 @@
 from core import BaseExample, ChatLLMClient
 
 
-class ClassicAgentExample(BaseExample):
+class ClassicAgentBuildExample(BaseExample):
     """
     Example 3: 展示如何使用 ChatLLMClient 呼叫大語言模型。
     """
@@ -16,7 +16,7 @@ class ClassicAgentExample(BaseExample):
             ]
 
             print("--- 呼叫LLM ---")
-            responseText = agent.think(exampleMessages)
+            responseText = agent.generate(exampleMessages)
             if responseText:
                 print("\n\n--- 完整模型回應 ---")
                 print(responseText)
@@ -27,7 +27,7 @@ class ClassicAgentExample(BaseExample):
 
 def main():
     """Main execution point for Example 3."""
-    sample = ClassicAgentExample()
+    sample = ClassicAgentBuildExample()
     sample.run()
 
 

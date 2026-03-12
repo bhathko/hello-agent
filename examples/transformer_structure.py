@@ -212,7 +212,7 @@ class DecoderLayer(nn.Module):
         return x
 
 
-class TransformerSample(BaseExample):
+class TransformerStructureExample(BaseExample):
     """
     Example 1: Transformer Structure Sample
     """
@@ -279,7 +279,7 @@ class TransformerSample(BaseExample):
 
 def main():
     """Main execution point for Example 1."""
-    sample = TransformerSample()
+    sample = TransformerStructureExample()
     sample.run()
 
 

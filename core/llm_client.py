@@ -71,9 +71,10 @@ class ChatLLMClient:
 
         self.client = genai.Client(api_key=api_key)
 
-    def think(self, messages: List[Dict[str, str]], temperature: float = 0) -> str:
+    def generate(self, messages: List[Dict[str, str]], temperature: float = 0) -> str:
         """
         以多輪對話方式呼叫 LLM，使用串流回應。
+        介面與 LLMClient.generate() 一致，可互換使用。
 
         Args:
             messages: OpenAI 風格的訊息列表 [{"role": "system/user/model", "content": "..."}]
