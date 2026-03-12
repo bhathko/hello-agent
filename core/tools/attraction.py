@@ -5,14 +5,14 @@ from tavily import TavilyClient
 
 def get_attraction(city: str, weather: str) -> str:
     """
-    Search for attraction recommendations using the Tavily Search API based on city and weather.
+    根據城市和天氣狀況，使用 Tavily 搜尋 API 搜尋並推薦旅遊景點。
     """
     api_key = os.environ.get("TAVILY_API_KEY")
     if not api_key:
-        return "Error: TAVILY_API_KEY environment variable is not configured."
+        return "錯誤：TAVILY_API_KEY 環境變數未設定。"
 
     tavily = TavilyClient(api_key=api_key)
-    query = f"Recommended tourist attractions and reasons to visit in '{city}' during '{weather}' weather"
+    query = f"在 '{city}' 天氣為 '{weather}' 時推薦的旅遊景點及造訪理由"
 
     try:
         response = tavily.search(query=query, search_depth="basic", include_answer=True)
@@ -25,9 +25,9 @@ def get_attraction(city: str, weather: str) -> str:
             formatted_results.append(f"- {result['title']}: {result['content']}")
 
         if not formatted_results:
-            return "Sorry, no relevant tourist attraction recommendations were found."
+            return "抱歉，找不到相關的旅遊景點推薦。"
 
-        return "Based on the search, here is the information found:\n" + "\n".join(formatted_results)
+        return "根據搜尋結果，以下是找到的資訊：\n" + "\n".join(formatted_results)
 
     except Exception as e:
-        return f"Error: A problem occurred while performing the Tavily search - {e}"
+        return f"錯誤：執行 Tavily 搜尋時發生問題 - {e}"
