@@ -2,16 +2,12 @@
 Main entry point for the Hello-Agent application.
 """
 import argparse
-import sys
-import os
-
-# Ensure root is in path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import example runners
-from example_1_transformer_structure.run import main as run_example_1
-from example_2_action_thought_observe.run import main as run_example_2
-from example_3_classic_agent_build.run import main as run_example_3
+from examples.transformer_structure import main as run_example_1
+from examples.action_thought_observe import main as run_example_2
+from examples.classic_agent_build import main as run_example_3
+from examples.basic_agent_tool import main as run_example_4
 
 
 def main():
@@ -20,9 +16,9 @@ def main():
     parser.add_argument(
         "--chapter", 
         type=int, 
-        choices=[1, 2, 3], 
-        default=3, 
-        help="The example sample to run (default: 3)"
+        choices=[1, 2, 3, 4], 
+        default=4, 
+        help="The example sample to run (default: 4)"
     )
     
     args = parser.parse_args()
@@ -33,6 +29,8 @@ def main():
         run_example_2()
     elif args.chapter == 3:
         run_example_3()
+    elif args.chapter == 4:
+        run_example_4()
     else:
         print(f"Example {args.chapter} not found.")
 

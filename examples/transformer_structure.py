@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import math
-from base_example import BaseExample
+from core.base_example import BaseExample
 
 # ==========================================
 # A Simple Transformer Story: Flow and Duty
@@ -275,3 +275,13 @@ class TransformerSample(BaseExample):
         print(f"   -> 解碼器輸出的形狀: {decoder_output.shape}\n")
 
         print("=== Transformer 故事：工廠流水線完成本次作業！ ===")
+
+
+def main():
+    """Main execution point for Example 1."""
+    sample = TransformerSample()
+    sample.run()
+
+
+if __name__ == '__main__':
+    main()

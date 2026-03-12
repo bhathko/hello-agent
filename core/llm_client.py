@@ -1,23 +1,64 @@
 import os
-import sys
-from typing import Optional, List, Dict
+from typing import List, Dict
 
 from google import genai
 from google.genai import types
-
-# Ensure root is in path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from base_example import BaseExample
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-class Example3Sample(BaseExample):
+class GeminiClient:
+    """
+    A simple client for calling Google's Gemini API.
+    Uses non-streaming requests with prompt + system_prompt interface.
+    """
+
+    def __init__(self, model: str = None, api_key: str = None):
+        """
+        Initialize the Gemini client.
+
+        Args:
+            model: The model identifier to use (e.g., 'gemini-2.5-flash')
+            api_key: API key for authentication
+        """
+        self.model_id = model or os.getenv("MODEL_ID", "gemini-2.5-flash")
+        api_key = api_key or os.getenv("GEMINI_API_KEY")
+        self.client = genai.Client(api_key=api_key)
+
+    def generate(self, prompt: str, system_prompt: str = "") -> str:
+        """
+        Call the Gemini API to generate a response.
+
+        Args:
+            prompt: The user prompt
+            system_prompt: The system prompt
+
+        Returns:
+            The generated response text
+        """
+        print(f"Calling Gemini model ({self.model_id})...")
+        try:
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=prompt,
+                config={
+                    'system_instruction': system_prompt
+                }
+            )
+            answer = response.text
+            print("Gemini model response successful.")
+            return answer
+        except Exception as e:
+            print(f"Error occurred while calling Gemini API: {e}")
+            return "Error: An error occurred while calling the Gemini model service."
+
+
+class ClassicLLMAgent:
     """
     為本書 "Hello Agents" 定製的LLM客戶端。
     它使用 Google Gemini SDK 呼叫 Gemini 模型，並預設使用串流回應。
+    Supports OpenAI-style message format with streaming.
     """
     def __init__(self, model: str = None, apiKey: str = None):
         """
@@ -62,7 +103,6 @@ class Example3Sample(BaseExample):
             config = types.GenerateContentConfig(
                 temperature=temperature,
                 system_instruction=system_instruction,
-                response_mime_type="application/json"
             )
 
             # 呼叫 Gemini 串流 API
@@ -86,25 +126,4 @@ class Example3Sample(BaseExample):
             print(f"❌ 呼叫LLM API時發生錯誤: {e}")
             return None
 
-    def run(self):
-        """Execute the sample logic for this example."""
-        try:
-            exampleMessages = [
-                {"role": "system", "content": "You are a helpful assistant that writes Python code."},
-                {"role": "user", "content": "寫一個冒泡排序演算法"}
-            ]
 
-            print("--- 呼叫LLM ---")
-            responseText = self.think(exampleMessages)
-            if responseText:
-                print("\n\n--- 完整模型回應 ---")
-                print(responseText)
-
-        except ValueError as e:
-            print(e)
-
-
-# --- 客戶端使用範例 ---
-if __name__ == '__main__':
-    sample = Example3Sample()
-    sample.run()

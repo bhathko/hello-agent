@@ -1,23 +1,24 @@
 """
-Agent execution logic for the ReAct pattern.
+Agent execution logic for the ReAct (Reasoning + Acting) pattern.
 """
 import re
 from typing import List, Dict, Callable, Optional
 
-from .llm_client import GeminiClient
-from .prompts import AGENT_SYSTEM_PROMPT
+from core.llm_client import GeminiClient
 
 
-class Agent:
+class ReActAgent:
     """
     An agent that uses the ReAct (Reasoning + Acting) pattern to solve tasks.
+    It parses LLM output for Thought/Action/Observation steps, executes tools,
+    and iterates until a final answer is reached.
     """
 
     def __init__(
         self,
         llm_client: GeminiClient,
         available_tools: Dict[str, Callable],
-        system_prompt: str = AGENT_SYSTEM_PROMPT,
+        system_prompt: str = "",
         max_iterations: int = 5
     ):
         """
@@ -97,9 +98,6 @@ class Agent:
     def _execute_action(self, llm_output: str) -> Optional[str]:
         """
         Parse and execute the action from LLM output.
-
-        Args:
-            llm_output: The LLM's output
 
         Returns:
             Observation string, or None if task is finished
