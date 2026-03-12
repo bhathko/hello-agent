@@ -4,7 +4,7 @@ Agent execution logic for the ReAct (Reasoning + Acting) pattern.
 import re
 from typing import List, Dict, Callable, Optional
 
-from core.llm_client import GeminiClient
+from core.llm_client import LLMClient
 
 
 class ReActAgent:
@@ -16,7 +16,7 @@ class ReActAgent:
 
     def __init__(
         self,
-        llm_client: GeminiClient,
+        llm_client: LLMClient,
         available_tools: Dict[str, Callable],
         system_prompt: str = "",
         max_iterations: int = 5

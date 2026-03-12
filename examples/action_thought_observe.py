@@ -1,6 +1,6 @@
 import os
 
-from core import BaseExample, GeminiClient, ReActAgent, get_config
+from core import BaseExample, LLMClient, ReActAgent, get_config
 from core.prompts import build_react_prompt, ROLE_TRAVEL_ASSISTANT
 from core.tools.weather import get_weather
 from core.tools.attraction import get_attraction
@@ -14,8 +14,8 @@ TOOL_DESCRIPTIONS = """- `get_weather(city: str)`：呼叫 Google 天氣 API，�
 
 class ActionThoughtObserveExample(BaseExample):
     """
-    Example 2: 展示 ReAct (Reasoning + Acting) 模式的智慧體。
-    使用 GeminiClient 搭配天氣和景點推薦工具。
+    Example 2: 展示 ReAct（推理 + 行動）模式的智慧體。
+    使用 LLMClient 搭配天氣和景點推薦工具。
     """
 
     def run(self):
@@ -31,7 +31,7 @@ class ActionThoughtObserveExample(BaseExample):
             return
 
         os.environ['TAVILY_API_KEY'] = config.tavily_api_key
-        llm_client = GeminiClient(model=config.model_id, api_key=config.gemini_api_key)
+        llm_client = LLMClient(model=config.model_id, api_key=config.gemini_api_key)
 
         available_tools = {
             'get_weather': get_weather,

@@ -1,15 +1,15 @@
-from core import BaseExample, ClassicLLMAgent
+from core import BaseExample, ChatLLMClient
 
 
 class ClassicAgentExample(BaseExample):
     """
-    Example 3: 展示如何使用 ClassicLLMAgent 呼叫大語言模型。
+    Example 3: 展示如何使用 ChatLLMClient 呼叫大語言模型。
     """
 
     def run(self):
         """Execute the sample logic for this example."""
         try:
-            agent = ClassicLLMAgent()
+            agent = ChatLLMClient()
             exampleMessages = [
                 {"role": "system", "content": "You are a helpful assistant that writes Python code."},
                 {"role": "user", "content": "寫一個冒泡排序演算法"}

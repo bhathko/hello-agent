@@ -8,19 +8,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-class GeminiClient:
+class LLMClient:
     """
-    A simple client for calling Google's Gemini API.
-    Uses non-streaming requests with prompt + system_prompt interface.
+    簡單的 LLM 客戶端。
+    使用非串流請求，適合單輪對話場景。
     """
 
     def __init__(self, model: str = None, api_key: str = None):
         """
-        Initialize the Gemini client.
+        初始化 LLM 客戶端。
 
         Args:
-            model: The model identifier to use (e.g., 'gemini-2.5-flash')
-            api_key: API key for authentication
+            model: 模型 ID（例如 'gemini-2.5-flash'）
+            api_key: API 金鑰
         """
         self.model_id = model or os.getenv("MODEL_ID", "gemini-2.5-flash")
         api_key = api_key or os.getenv("GEMINI_API_KEY")
@@ -28,16 +28,16 @@ class GeminiClient:
 
     def generate(self, prompt: str, system_prompt: str = "") -> str:
         """
-        Call the Gemini API to generate a response.
+        呼叫 LLM 產生回應。
 
         Args:
-            prompt: The user prompt
-            system_prompt: The system prompt
+            prompt: 使用者提示詞
+            system_prompt: 系統提示詞
 
         Returns:
-            The generated response text
+            產生的回應文字
         """
-        print(f"Calling Gemini model ({self.model_id})...")
+        print(f"🧠 正在呼叫 {self.model_id} 模型...")
         try:
             response = self.client.models.generate_content(
                 model=self.model_id,
@@ -47,38 +47,43 @@ class GeminiClient:
                 }
             )
             answer = response.text
-            print("Gemini model response successful.")
+            print("✅ 模型回應成功。")
             return answer
         except Exception as e:
-            print(f"Error occurred while calling Gemini API: {e}")
-            return "Error: An error occurred while calling the Gemini model service."
+            print(f"❌ 呼叫 LLM API 時發生錯誤：{e}")
+            return "錯誤：呼叫模型服務時發生問題。"
 
 
-class ClassicLLMAgent:
+class ChatLLMClient:
     """
-    為本書 "Hello Agents" 定製的LLM客戶端。
-    它使用 Google Gemini SDK 呼叫 Gemini 模型，並預設使用串流回應。
-    Supports OpenAI-style message format with streaming.
+    支援多輪對話的串流 LLM 客戶端。
+    接受 OpenAI 風格的訊息列表格式。
     """
-    def __init__(self, model: str = None, apiKey: str = None):
+    def __init__(self, model: str = None, api_key: str = None):
         """
         初始化客戶端。優先使用傳入參數，如果未提供，則從環境變數載入。
         """
         self.model = model or os.getenv("MODEL_ID", "gemini-2.5-flash")
-        apiKey = apiKey or os.getenv("GEMINI_API_KEY")
+        api_key = api_key or os.getenv("GEMINI_API_KEY")
 
-        if not all([self.model, apiKey]):
-            raise ValueError("模型ID和API金鑰必須被提供或在.env檔案中定義。")
+        if not all([self.model, api_key]):
+            raise ValueError("模型 ID 和 API 金鑰必須被提供或在 .env 檔案中定義。")
 
-        self.client = genai.Client(api_key=apiKey)
+        self.client = genai.Client(api_key=api_key)
 
     def think(self, messages: List[Dict[str, str]], temperature: float = 0) -> str:
         """
-        呼叫大語言模型進行思考，並回傳其回應。
+        以多輪對話方式呼叫 LLM，使用串流回應。
+
+        Args:
+            messages: OpenAI 風格的訊息列表 [{"role": "system/user/model", "content": "..."}]
+            temperature: 溫度參數（預設 0）
+
+        Returns:
+            完整的回應文字
         """
         print(f"🧠 正在呼叫 {self.model} 模型...")
         try:
-            # 將 OpenAI 格式的訊息轉換為 Gemini 格式
             system_instruction = None
             gemini_contents = []
 
@@ -99,31 +104,26 @@ class ClassicLLMAgent:
                         parts=[types.Part.from_text(text=content)]
                     ))
 
-            # 建構生成配置
             config = types.GenerateContentConfig(
                 temperature=temperature,
                 system_instruction=system_instruction,
             )
 
-            # 呼叫 Gemini 串流 API
             response = self.client.models.generate_content_stream(
                 model=self.model,
                 contents=gemini_contents,
                 config=config,
             )
 
-            # 處理串流回應
             print("✅ 大語言模型回應成功:")
             collected_content = []
             for chunk in response:
                 content = chunk.text or ""
                 print(content, end="", flush=True)
                 collected_content.append(content)
-            print()  # 在串流輸出結束後換行
+            print()
             return "".join(collected_content)
 
         except Exception as e:
-            print(f"❌ 呼叫LLM API時發生錯誤: {e}")
+            print(f"❌ 呼叫 LLM API 時發生錯誤：{e}")
             return None
-
-
